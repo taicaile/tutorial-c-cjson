@@ -8,3 +8,9 @@ cd build
 cmake ..
 ./src/main
 ```
+
+## Reference
+
+<https://github.com/akheron/jansson>
+
+<https://github.com/DaveGamble/cJSON>
