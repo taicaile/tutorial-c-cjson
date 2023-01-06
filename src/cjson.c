@@ -4,23 +4,12 @@
 #include <math.h>
 #include "cjson.h"
 
-int main(int argc, char const *argv[])
-{
-
-    return 0;
-}
-
 const char *skip(const char *str)
 {
     while (str && *str && ((unsigned char)*str <= 32))
     {
         str++;
     }
-}
-
-cJSON *cJSON_Parser(const char *value)
-{
-    return cJSON_ParserWithOpts(value, 0, 0);
 }
 
 static void *(*cJSON_malloc)(size_t sz) = malloc;
@@ -74,6 +63,11 @@ const char *parser_Array(cJSON *item, const char *value)
         new_item->prev = child;
         child = new_item;
     }
+}
+
+const char *paser_Object(cJSON *item, const char *value)
+{
+    return NULL;
 }
 
 const char *parser_Number(cJSON *item, const char *num)
@@ -221,14 +215,19 @@ const char *parser_value(cJSON *item, const char *value)
     {
         return parser_Number(item, value);
     }
-    if (*value == "[")
+    if ((*value) == '[')
     {
         return parser_Array(item, value);
     }
-    if (*value == "{")
+    if ((*value) == '{')
     {
-        return paeser_Object(item, value);
+        return paser_Object(item, value);
     }
+}
+
+cJSON *cJSON_Parser(const char *value)
+{
+    return cJSON_ParserWithOpts(value, 0, 0);
 }
 
 cJSON *cJSON_ParserWithOpts(const char *value, const char **return_parse_end, int require_null_terminated)
@@ -241,5 +240,7 @@ cJSON *cJSON_ParserWithOpts(const char *value, const char **return_parse_end, in
         return NULL;
     }
 
-    parser_value();
+    parser_value(c, value);
+
+    return c;
 }

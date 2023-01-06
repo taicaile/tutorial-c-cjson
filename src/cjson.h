@@ -16,16 +16,16 @@
 #define cJSON_AddTrueToObject(object, name) \
     cJSON_AddItemToObject(object, name, cJSON_CreateTrue())
 
-#define cJSON_AddFalseToObject(object, name, b) \
+#define cJSON_AddBoolToObject(object, name, b) \
     cJSON_AddItemToObject(object, name, cJSON_CreateFalse(b))
 
 #define cJSON_AddNULLToObject(object, name) \
     cJSON_AddItemToObject(object, name, cJSON_CreateNull())
 
-#define cJSON_AddNULLToObject(object, name, number) \
+#define cJSON_AddNumberToObject(object, name, number) \
     cJSON_AddItemToObject(object, name, cJSON_CreateNumber(cJSON_Number))
 
-#define cJSON_AddNULLToObject(object, name, s) \
+#define cJSON_AddStringToObject(object, name, s) \
     cJSON_AddItemToObject(object, name, cJSON_CreateString(s))
 
 #define cJSON_SetIntValue(object, val) \
@@ -36,8 +36,8 @@
 
 typedef struct _cJSON
 {
-    cJSON *next, *prev;
-    cJSON *child;
+    struct _cJSON *next, *prev;
+    struct _cJSON *child;
     int type;
 
     char *valueString;
@@ -45,12 +45,11 @@ typedef struct _cJSON
     double valueDouble;
 
     char *string;
-
 } cJSON;
 
 // 解析 json 数据
 cJSON *cJSON_Parser(const char *value);
-
+cJSON *cJSON_ParserWithOpts(const char *value, const char **return_parse_end, int require_null_terminated);
 // 打印
 char *cJSON_Print(cJSON *item);
 
